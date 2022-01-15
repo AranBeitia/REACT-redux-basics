@@ -1,8 +1,9 @@
-const Header = () => {
+const Header = ({ onIncreaseCounter, onDecreaseCounter }) => {
 	return (
-		<>
-			<p>header</p>
-		</>
+		<header>
+			<button onClick={onIncreaseCounter}>+</button>
+			<button onClick={onDecreaseCounter}>-</button>
+		</header>
 	)
 }
 
