@@ -1,18 +1,32 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setCounter } from './redux-storage/counter/actions'
 
 import Header from './components/Header'
 import Footer from './components/Footer'
 
 function App() {
-	const [counter, setCounter] = useState(0)
+	const dispatch = useDispatch()
+	const [counterInput, setCounterInput] = useState('')
+
+	const handleSetCounter = (e) => {
+		e.preventDefault()
+
+		dispatch(setCounter(counterInput))
+	}
 	return (
 		<>
-			<Header
-				onIncreaseCounter={() => setCounter(counter + 1)}
-				onDecreaseCounter={() => setCounter(counter - 1)}
-			/>
+			<Header />
 			<h1>react app</h1>
-			<Footer counter={counter} />
+			<form onSubmit={handleSetCounter}>
+				<label htmlFor="counter">Set counter</label>
+				<input
+					value={counterInput}
+					onChange={({ target }) => setCounterInput(target.value)}
+				/>
+				<button>SET</button>
+			</form>
+			<Footer />
 		</>
 	)
 }
