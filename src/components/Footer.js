@@ -1,10 +1,10 @@
 import { useSelector } from 'react-redux'
 
 const Footer = () => {
-	const counter = useSelector((state) => state.counter)
+	const { status, number } = useSelector((state) => state.counter)
 	return (
 		<footer>
-			<p>Counter: {counter}</p>
+			<p>Counter: {status === 'loading' ? 'Loading...' : number}</p>
 		</footer>
 	)
 }

@@ -3,16 +3,26 @@ import {
 	DECREASE_COUNTER,
 	RESET_COUNTER,
 	SET_COUNTER,
+	RANDOM_COUNTER,
+	COUNTER_LOADING,
 } from './types'
 import initialState from './state'
 
 const reducer = (state = initialState, action) => {
 	switch (action.type) {
 		case INCREASE_COUNTER: {
-			return state + 1
+			if (state.status === 'loading') return state
+			return {
+				...state,
+				number: state.number + 1,
+			}
 		}
 		case DECREASE_COUNTER: {
-			return state === 0 ? 0 : state - 1
+			if (state.status === 'loading') return state
+			return {
+				...state,
+				number: state.number === 0 ? 0 : state.number - 1,
+			}
 		}
 		case RESET_COUNTER: {
 			return initialState
@@ -20,7 +30,25 @@ const reducer = (state = initialState, action) => {
 
 		case SET_COUNTER: {
 			const counterParsed = Number(action.payload)
-			return Number.isNaN(counterParsed) ? state : counterParsed
+			return {
+				...state,
+				status: 'ok',
+				number: Number.isNaN(counterParsed) ? state : counterParsed,
+			}
+		}
+
+		case RANDOM_COUNTER: {
+			return {
+				...state,
+				number: Math.round(Math.random * 10),
+			}
+		}
+
+		case COUNTER_LOADING: {
+			return {
+				...state,
+				status: 'loading',
+			}
 		}
 
 		default: {
